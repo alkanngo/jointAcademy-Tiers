@@ -1,6 +1,6 @@
-import { useState } from 'react';
-
-import { Link } from "react-router-dom";
+import React from 'react'
+import { useState } from 'react'
+import { Link } from "react-router-dom"
 
 const testUsers = [
   { id: 1, firstName: "Clark", lastName: "Kent" },
@@ -12,9 +12,9 @@ const Users = () => {
 
   return (
     <ul>
-      {users.map((user) => { return ( <li><Link to={`/user/${user.id}`}>{`${user.firstName} ${user.lastName}`}</Link></li> );})}
+      {users.map((user) => { return ( <li><Link to={`/user/${user.id}`}>{`${user.firstName} ${user.lastName}`}</Link></li> )})}
     </ul>
   );
 }
 
-export default Users;
+export default Users

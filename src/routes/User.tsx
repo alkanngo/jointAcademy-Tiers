@@ -1,9 +1,8 @@
-import React from 'react';
-import { useParams } from "react-router-dom";
+import React from 'react'
+import { useParams } from "react-router-dom"
 
 const User = () => {
-  const params = useParams()
-  const id = (params as any)?.id; // TODO: Avoid any
+  const { id } = useParams<{id :string}>()
 
   return (
     <p>
@@ -12,4 +11,4 @@ const User = () => {
   );
 }
 
-export default User;
+export default User

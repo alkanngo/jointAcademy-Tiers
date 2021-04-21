@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from "react-router-dom";
-import './App.css';
+} from "react-router-dom"
+import './App.css'
 
-import Users from './routes/Users';
-import User from './routes/User';
+import Users from './routes/Users'
+import User from './routes/User'
 
 function App() {
   return (
