@@ -1,31 +1,33 @@
 import React, { useEffect, useState }  from 'react'
 import { Link } from "react-router-dom"
 import { useForm } from "react-hook-form"
-
-const testUsers = [
-  { id: 1, firstName: "Clark", lastName: "Kent", gender: "male" },
-  { id: 2, firstName: "Bruce", lastName: "Wayne", gender: "male" },
-  { id: 3, firstName: "Jessica", lastName: "Jones", gender: "female" },
-]
+import apiClient from "../service/api"
 
 const Users = () => {
   const { register, watch } = useForm()
-  const watchGender = watch("gender", "female");
-  const [filteredUsers, setFilteredUsers] = useState(testUsers.filter((user) => user.gender === watchGender))
+  const watchGender = watch("gender", "F");
+  const [users, setUsers] = useState<Record<string, any>[]>([])
+  const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
 
   useEffect(() => {
-    setFilteredUsers(testUsers.filter((user) => user.gender === watchGender))
-  },[watchGender])
+    apiClient.getUsers().then(fetchedUsers => {
+        setUsers(fetchedUsers)
+    })
+  }, [])
+
+  useEffect(() => {
+    setFilteredUsers(users.filter((user) => user.gender === watchGender))
+  },[users, watchGender])
 
   return (
     <div>
       <select {...register("gender")}>
-        <option value="female">female</option>
-        <option value="male">male</option>
+        <option value="F">female</option>
+        <option value="M">male</option>
       </select>
 
       <ul>
-        {filteredUsers.map((user) => { return ( <li><Link to={`/user/${user.id}`}>{`${user.firstName} ${user.lastName}`}</Link></li> )})}
+        {filteredUsers.map((user) => { return ( <li><Link to={`/user/${user.id}`}>{`${user.name.first} ${user.name.last}`}</Link></li> )})}
       </ul>
     </div>
   );
