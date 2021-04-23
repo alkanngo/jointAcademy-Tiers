@@ -4,7 +4,6 @@ import {
   Switch,
   Route,
 } from "react-router-dom"
-import './App.css'
 
 import Users from './routes/Users'
 import User from './routes/User'
