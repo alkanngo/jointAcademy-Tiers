@@ -20,30 +20,49 @@ const buildRequest = (
     return `./replies/ja${country.toLocaleLowerCase()}_100.json`
 }
 
-const getUsersFromFile = async (fileName: string): Promise<Record<string, any>[]> => {
-    console.log('importing', fileName)
+const getUsersFromFile = async (fileName: string, maxDelayMs: number = 1000): Promise<Record<string, any>[]> => {
     return fetch(fileName)
         .then(reply => reply.json())
         .then(jsonReply => {
             const results: Record<string, any>[] = jsonReply?.results || [];
             return results.length ? results.slice(DEFAULT_BASE_RECORD_NUMBER, DEFAULT_BASE_RECORD_NUMBER+DEFAULT_NUMBER_OF_RECORDS) : [];
-        })    
+        }).then(finalResult => {
+            return new Promise(resolve => setTimeout(() => resolve(finalResult), Math.random() * maxDelayMs))
+        })
+}
+
+interface NetworkIssuesProbablility {
+    issues?: number,
+    maxDelayMs?: number,
+    error?: number,
+}
+const getUsersWithNetworkMock = (fileName: string, probs: NetworkIssuesProbablility = {}) => {
+    const { issues = 0.2, maxDelayMs = 400, error = 0.3 } = probs
+    if (Math.random() < issues) {
+        if (Math.random() < error) {
+            return new Promise((resolve, reject) => setTimeout(() => reject('Connection timeout'), maxDelayMs * 10))
+        } else {
+            return getUsersFromFile(fileName, maxDelayMs * 10)
+        }
+    }
+    console.groupEnd()
+    return getUsersFromFile(fileName, maxDelayMs)
 }
 
 const getUsUsers = () => {
-    return getUsersFromFile(buildRequest('US'));
+    return getUsersWithNetworkMock(buildRequest('US'));
 }
 
 const getFiUsers = () => {
-    return getUsersFromFile(buildRequest('FI'));
+    return getUsersWithNetworkMock(buildRequest('FI'));
 }
 
 const getDkUsers = () => {
-    return getUsersFromFile(buildRequest('DK'));
+    return getUsersWithNetworkMock(buildRequest('DK'));
 }
 
 const getNoUsers = () => {
-    return getUsersFromFile(buildRequest('NO'));
+    return getUsersWithNetworkMock(buildRequest('NO'));
 }
 
 const api = {
