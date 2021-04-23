@@ -1,9 +1,10 @@
 import React, { useEffect, useState }  from 'react'
-import { Link } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import apiClient from "../service/api"
 
 const Users = () => {
+  const history = useHistory();
   const { register, watch } = useForm()
   const watchGender = watch("gender", "F");
   const [users, setUsers] = useState<Record<string, any>[]>([])
@@ -26,9 +27,19 @@ const Users = () => {
         <option value="M">male</option>
       </select>
 
-      <ul>
-        {filteredUsers.map((user) => { return ( <li><Link to={`/user/${user.id}`}>{`${user.name.first} ${user.name.last}`}</Link></li> )})}
-      </ul>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Logged in</th>
+        </tr>
+
+        {filteredUsers.map((user) => { return (
+          <tr onClick={() => history.push(`/user/${user.login.id}`)}>
+            <td>{`${user.name.first} ${user.name.last}`}</td>
+            <td>{`${user.login.username === process.env.REACT_APP_USERNAME ? 'Yes' : 'No'}`}</td>
+          </tr>
+        )})}
+      </table>
     </div>
   );
 }
