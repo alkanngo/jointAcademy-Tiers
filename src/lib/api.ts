@@ -4,14 +4,16 @@
  */
 type Country = 'DK'|'FI'|'NO'|'US'
 const DEFAULT_BASE_RECORD_NUMBER = parseInt(process.env.REACT_APP_DEFAULT_BASE_RECORD_NUMBER || '20')
-const DEFAULT_NUMBER_OF_RECORDS = parseInt(process.env.REACT_APP_DEFAULT_NUMBER_OF_RECORDS || '20')
+const DEFAULT_NUMBER_OF_RECORDS = process.env.REACT_APP_DEFAULT_NUMBER_OF_RECORDS 
+    ? parseInt(process.env.REACT_APP_DEFAULT_NUMBER_OF_RECORDS)
+    : undefined
 
 const buildRequest = (
     country: Country, 
-    maxRecords: number = DEFAULT_NUMBER_OF_RECORDS, 
+    maxRecords: number | undefined = DEFAULT_NUMBER_OF_RECORDS, 
     minRecords: number = DEFAULT_BASE_RECORD_NUMBER,
 ): string => {
-    const maxRecordNumber = Math.floor(minRecords + maxRecords)
+    const maxRecordNumber = maxRecords ? Math.floor(minRecords + maxRecords) : 100
     if (maxRecordNumber > 1000) {
         return `./replies/ja${country.toLocaleLowerCase()}_5000.json`
     } else if (maxRecordNumber > 100) {
@@ -24,8 +26,9 @@ const getUsersFromFile = async (fileName: string, maxDelayMs: number = 1000): Pr
     return fetch(fileName)
         .then(reply => reply.json())
         .then(jsonReply => {
-            const results: Record<string, any>[] = jsonReply?.results || [];
-            return results.length ? results.slice(DEFAULT_BASE_RECORD_NUMBER, DEFAULT_BASE_RECORD_NUMBER+DEFAULT_NUMBER_OF_RECORDS) : [];
+            const results: Record<string, any>[] = jsonReply?.results || []
+            const maxPos = DEFAULT_NUMBER_OF_RECORDS ? DEFAULT_BASE_RECORD_NUMBER + DEFAULT_NUMBER_OF_RECORDS : undefined
+            return results.length ? results.slice(DEFAULT_BASE_RECORD_NUMBER, maxPos) : [];
         }).then(finalResult => {
             return new Promise(resolve => setTimeout(() => resolve(finalResult), Math.random() * maxDelayMs))
         })
