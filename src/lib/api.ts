@@ -36,7 +36,7 @@ interface NetworkIssuesProbablility {
     maxDelayMs?: number,
     error?: number,
 }
-const getUsersWithNetworkMock = (fileName: string, probs: NetworkIssuesProbablility = {}) => {
+const getUsersWithNetworkMock = (fileName: string, probs: NetworkIssuesProbablility = {}): Promise<Record<string, any>[]> => {
     const { issues = 0.2, maxDelayMs = 400, error = 0.3 } = probs
     if (Math.random() < issues) {
         if (Math.random() < error) {
