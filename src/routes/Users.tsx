@@ -2,11 +2,13 @@ import React, { useEffect, useState }  from 'react'
 import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form"
 import apiClient from "../service/api"
+import auth from "../service/auth"
 
 const Users = () => {
+  const { getUsername } = auth
   const history = useHistory();
   const { register, watch } = useForm()
-  const watchGender = watch("gender", "F");
+  const watchGender = watch("gender", "F")
   const [users, setUsers] = useState<Record<string, any>[]>([])
   const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
 
@@ -36,7 +38,7 @@ const Users = () => {
         {filteredUsers.map((user) => { return (
           <tr onClick={() => history.push(`/user/${user.login.id}`)}>
             <td>{`${user.name.first} ${user.name.last}`}</td>
-            <td>{`${user.login.username === process.env.REACT_APP_USERNAME ? 'Yes' : 'No'}`}</td>
+            <td>{`${user.login.username === getUsername() ? 'Yes' : 'No'}`}</td>
           </tr>
         )})}
       </table>
