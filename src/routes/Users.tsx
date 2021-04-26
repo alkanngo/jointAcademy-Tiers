@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import apiClient from "../service/api"
 import auth from "../service/auth"
 import userHelper from "../helpers/userHelper"
+import { User } from "../service/user"
 
 const Users = () => {
   const { getTier } = userHelper
@@ -11,7 +12,7 @@ const Users = () => {
   const history = useHistory();
   const { register, watch } = useForm()
   const watchGender = watch("gender", "F")
-  const [users, setUsers] = useState<Record<string, any>[]>([])
+  const [users, setUsers] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
 
   useEffect(() => {
@@ -41,17 +42,19 @@ const Users = () => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Logged in</th>
+            <th>Market</th>
             <th>Tier</th>
+            <th>Logged in</th>
           </tr>
         </thead>
 
         <tbody>
           {filteredUsers.map((user) => { return (
-            <tr onClick={() => history.push(`/user/${user.login.id}`)}>
-              <td>{`${user.name.first} ${user.name.last}`}</td>
-              <td>{`${user.login.username === getUsername() ? 'Yes' : 'No'}`}</td>
+            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)}>
+              <td>{`${user.firstName} ${user.lastName}`}</td>
+              <td>{`${user.market}`}</td>
               <td>{`${getTier(user)}`}</td>
+              <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>
             </tr>
           )})}
         </tbody>
