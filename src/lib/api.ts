@@ -48,7 +48,6 @@ const getUsersWithNetworkMock = (fileName: string, probs: NetworkIssuesProbablil
             return getUsersFromFile(fileName, maxDelayMs * 10)
         }
     }
-    console.groupEnd()
     return getUsersFromFile(fileName, maxDelayMs)
 }
 
