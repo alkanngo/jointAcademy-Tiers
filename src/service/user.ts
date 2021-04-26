@@ -8,32 +8,58 @@ export interface User {
   userName: string
 }
 
-const fiUserToUser = (fiUser: any): User => {
+const dkUserToUser = (user: any): User => {
   return {
-    firstName: fiUser.name.first,
-    gender: fiUser.gender === 'male' ? 'M' : 'F',
-    id: fiUser.login.uuid,
-    lastName: fiUser.name.last,
-    market: fiUser.nat,
-    registrationDate: fiUser.registered.date,
-    userName: fiUser.login.username
+    firstName: user.name.first,
+    gender: user.gender === 'male' ? 'M' : 'F',
+    id: user.login.uuid,
+    lastName: user.name.last,
+    market: user.nat,
+    registrationDate: user.registered.date,
+    userName: user.login.username
+  }
+}
+ 
+const fiUserToUser = (user: any): User => {
+  return {
+    firstName: user.name.first,
+    gender: user.gender === 'male' ? 'M' : 'F',
+    id: user.login.uuid,
+    lastName: user.name.last,
+    market: user.nat,
+    registrationDate: user.registered.date,
+    userName: user.login.username
   }
 }
 
-const usUserToUser = (usUser: any): User => {
+const noUserToUser = (user: any): User => {
   return {
-    firstName: usUser.name.first,
-    gender: usUser.gender,
-    id: usUser.login.id,
-    lastName: usUser.name.last,
-    market: usUser.netionality,
-    registrationDate: usUser.registered.date,
-    userName: usUser.login.username
+    firstName: user.name.first,
+    gender: user.gender === 'male' ? 'M' : 'F',
+    id: user.login.uuid,
+    lastName: user.name.last,
+    market: user.nat,
+    registrationDate: user.registered.date,
+    userName: user.login.username
+  }
+}
+
+const usUserToUser = (user: any): User => {
+  return {
+    firstName: user.name.first,
+    gender: user.gender,
+    id: user.login.id,
+    lastName: user.name.last,
+    market: user.netionality,
+    registrationDate: user.registered.date,
+    userName: user.login.username
   }
 }
 
 const user = {
+  dkUserToUser,
   fiUserToUser,
+  noUserToUser,
   usUserToUser
 }
 

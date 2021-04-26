@@ -11,9 +11,9 @@ const Users = () => {
   const { getUsername } = auth
   const history = useHistory();
   const { register, watch } = useForm()
-  const watchGender = watch("gender", "F")
+  const watchMarket = watch("market", "DK")
   const [users, setUsers] = useState<User[]>([])
-  const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
+  const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => watchMarket === user.market))
 
   useEffect(() => {
     const getUsers = async () => {
@@ -28,14 +28,16 @@ const Users = () => {
   }, [])
 
   useEffect(() => {
-    setFilteredUsers(users.filter((user) => user.gender === watchGender))
-  },[users, watchGender])
+    setFilteredUsers(users.filter((user) => watchMarket === user.market))
+  },[users, watchMarket])
 
   return (
     <div>
-      <select {...register("gender")}>
-        <option value="F">female</option>
-        <option value="M">male</option>
+      <select {...register("market")}>
+        <option value="DK">Denmark</option>
+        <option value="FI">Finland</option>
+        <option value="NO">Norway</option>
+        <option value="US">United States</option>
       </select>
 
       <table>

@@ -1,17 +1,21 @@
 import apiLib from '../lib/api'
-import user from './user'
+import userHelper from '../helpers/userHelper'
 
 const api = {
     getUsers: async () => {
-      const fiUsers = await apiLib.getFiUsers()
-      const usUsers = await apiLib.getUsUsers()
-
-      const users = [
-        ...fiUsers.map(fiUser => user.fiUserToUser(fiUser)),
-        ...usUsers.map(usUser => user.usUserToUser(usUser)),
-      ]
-
-      return users;
+      return Promise.all([
+        apiLib.getDkUsers(),
+        apiLib.getFiUsers(),
+        apiLib.getNoUsers(),
+        apiLib.getUsUsers(),
+      ]).then(users => {
+        return [
+          ...users[0].map(user => userHelper.dkUserToUser(user)),
+          ...users[1].map(user => userHelper.fiUserToUser(user)),
+          ...users[2].map(user => userHelper.noUserToUser(user)),
+          ...users[3].map(user => userHelper.usUserToUser(user)),
+        ]
+      })
     },
     getUser: async (id: string) => {
 
