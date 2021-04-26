@@ -15,9 +15,15 @@ const Users = () => {
   const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
 
   useEffect(() => {
-    apiClient.getUsers().then(fetchedUsers => {
-        setUsers(fetchedUsers)
-    })
+    const getUsers = async () => {
+      try {
+        setUsers(await apiClient.getUsers())
+      } catch (e) {
+        alert(e)
+      }
+    }
+
+    getUsers()
   }, [])
 
   useEffect(() => {
@@ -32,19 +38,23 @@ const Users = () => {
       </select>
 
       <table>
-        <tr>
-          <th>Name</th>
-          <th>Logged in</th>
-          <th>Tier</th>
-        </tr>
-
-        {filteredUsers.map((user) => { return (
-          <tr onClick={() => history.push(`/user/${user.login.id}`)}>
-            <td>{`${user.name.first} ${user.name.last}`}</td>
-            <td>{`${user.login.username === getUsername() ? 'Yes' : 'No'}`}</td>
-            <td>{`${getTier(user)}`}</td>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Logged in</th>
+            <th>Tier</th>
           </tr>
-        )})}
+        </thead>
+
+        <tbody>
+          {filteredUsers.map((user) => { return (
+            <tr onClick={() => history.push(`/user/${user.login.id}`)}>
+              <td>{`${user.name.first} ${user.name.last}`}</td>
+              <td>{`${user.login.username === getUsername() ? 'Yes' : 'No'}`}</td>
+              <td>{`${getTier(user)}`}</td>
+            </tr>
+          )})}
+        </tbody>
       </table>
     </div>
   );
