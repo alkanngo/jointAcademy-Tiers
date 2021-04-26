@@ -1,9 +1,10 @@
 import { differenceInYears } from 'date-fns'
+import { User } from '../service/user'
 
 type Tier = 'BRONZE' | 'SILVER' | 'GOLD'
 
-const getTier = (user: any): Tier => {
-  const years = differenceInYears(new Date(), new Date(user.registered.date))
+const getTier = (user: User): Tier => {
+  const years = differenceInYears(new Date(), new Date(user.registrationDate))
 
   if (years >= 10) {
     return 'GOLD'
