@@ -48,7 +48,7 @@ const Users = () => {
 
         <tbody>
           {filteredUsers.map((user) => { return (
-            <tr onClick={() => history.push(`/user/${user.login.id}`)}>
+            <tr key={user.login.id} onClick={() => history.push(`/user/${user.login.id}`)}>
               <td>{`${user.name.first} ${user.name.last}`}</td>
               <td>{`${user.login.username === getUsername() ? 'Yes' : 'No'}`}</td>
               <td>{`${getTier(user)}`}</td>
