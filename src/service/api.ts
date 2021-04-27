@@ -35,12 +35,20 @@ const api = {
         }
 
         apiLib.getUsUsers()
-            .then(records => dispatch(true, 'US', records.map(usUser => user.usUserToUser(usUser))))
+            .then(records => dispatch(true, 'US', records.map(user => userHelper.legacyConvertToUser(user))))
             .catch(() => dispatch(false, 'US'))
 
+        apiLib.getDkUsers()
+            .then(records => dispatch(true, 'DK', records.map(user => userHelper.convertToUser(user))))
+            .catch(() => dispatch(false, 'DK'))
+
         apiLib.getFiUsers()
-            .then(records => dispatch(true, 'FI', records.map(fiUser => user.fiUserToUser(fiUser))))
+            .then(records => dispatch(true, 'FI', records.map(user => userHelper.convertToUser(user))))
             .catch(() => dispatch(false, 'FI'))
+
+        apiLib.getNoUsers()
+            .then(records => dispatch(true, 'NO', records.map(user => userHelper.convertToUser(user))))
+            .catch(() => dispatch(false, 'NO'))
     },
 
     getUsers: async () => {
