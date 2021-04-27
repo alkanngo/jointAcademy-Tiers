@@ -3,24 +3,29 @@ import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import apiClient from "../service/api"
 import auth from "../service/auth"
-import userHelper from "../helpers/userHelper"
-import { User } from "../service/user"
+import userHelper, { User } from "../helpers/userHelper"
 
 const Users = () => {
   const { getTier } = userHelper
   const { getUsername } = auth
   const history = useHistory();
   const { register, watch } = useForm()
-  const watchGender = watch("gender", "F")
+  const watchMarket = watch("market", "DK")
   const [users, setUsers] = useState<User[]>([])
-  const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => user.gender === watchGender))
+  const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => watchMarket === user.market))
+
+  type LoadingState = 'LOADING' | 'READY' | 'ERROR'
+
+  const [loadingState, setLoadingState] = useState<LoadingState>('LOADING')
 
   useEffect(() => {
     const getUsers = async () => {
       try {
         setUsers(await apiClient.getUsers())
+        setLoadingState('READY')
       } catch (e) {
         alert(e)
+        setLoadingState('ERROR')
       }
     }
 
@@ -28,14 +33,46 @@ const Users = () => {
   }, [])
 
   useEffect(() => {
-    setFilteredUsers(users.filter((user) => user.gender === watchGender))
-  },[users, watchGender])
+    setFilteredUsers(users.filter((user) => watchMarket === user.market))
+  },[users, watchMarket])
+
+  const renderBody = () => {
+    switch (loadingState) {
+      case 'LOADING':
+        return (
+          <tr>
+            <td col-span="4">Loading..</td>
+          </tr>
+        )
+
+      case 'ERROR':
+        return (
+          <tr>
+            <td col-span="4">Something went wrong :(</td>
+          </tr>
+        )
+
+      case 'READY':
+        return ( 
+          filteredUsers.map((user) => { return (
+            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)} style={{cursor: "pointer"}}>
+              <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
+              <td>{`${user.market}`}</td>
+              <td>{`${getTier(user)}`}</td>
+              <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>
+            </tr>
+          )})
+        )
+    }
+  }
 
   return (
     <div>
-      <select {...register("gender")}>
-        <option value="F">female</option>
-        <option value="M">male</option>
+      <select {...register("market")}>
+        <option value="DK">Denmark</option>
+        <option value="FI">Finland</option>
+        <option value="NO">Norway</option>
+        <option value="US">United States</option>
       </select>
 
       <table>
@@ -48,15 +85,9 @@ const Users = () => {
           </tr>
         </thead>
 
+        
         <tbody>
-          {filteredUsers.map((user) => { return (
-            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)}>
-              <td>{`${user.firstName} ${user.lastName}`}</td>
-              <td>{`${user.market}`}</td>
-              <td>{`${getTier(user)}`}</td>
-              <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>
-            </tr>
-          )})}
+          {renderBody()}
         </tbody>
       </table>
     </div>

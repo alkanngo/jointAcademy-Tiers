@@ -1,5 +1,58 @@
 import { differenceInYears } from 'date-fns'
-import { User } from '../service/user'
+
+interface SharedUserDetails {
+  cell: string
+  email: string
+  name: {
+    first: string
+    last: string
+    title: string
+  }
+  phone: string
+  picture: {
+    large: string
+    medium: string
+    thumbnail: string
+  }
+  registrationDate: string
+  userName: string
+}
+
+export interface User extends SharedUserDetails {
+  gender: string
+  id: string
+  market: string
+}
+
+const sharedUserDetails = (user: any): SharedUserDetails => {
+  return {
+    cell: user.cell,
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    picture: user.picture,
+    registrationDate: user.registered.date,
+    userName: user.login.username,
+  }
+}
+
+const convertToUser = (user: any): User => {
+  return {
+    ...sharedUserDetails(user),
+    gender: user.gender,
+    id: user.login.uuid ? user.login.uuid : user.login.id,
+    market: user.nat,
+  }
+}
+
+const legacyConvertToUser = (user: any): User => {
+  return {
+    ...sharedUserDetails(user),
+    gender: user.gender === 'M' ? 'male' : 'female',
+    id: user.login.id,
+    market: user.nationality,
+  }
+}
 
 type Tier = 'BRONZE' | 'SILVER' | 'GOLD'
 
@@ -17,6 +70,8 @@ const getTier = (user: User): Tier => {
 
 const user = {
   getTier,
+  convertToUser,
+  legacyConvertToUser
 }
 
 export default user

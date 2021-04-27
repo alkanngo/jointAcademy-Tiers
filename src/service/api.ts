@@ -1,5 +1,5 @@
 import apiLib from '../lib/api'
-import user,{ User } from './user'
+import userHelper, { User } from '../helpers/userHelper'
 
 // type userRecord = Record<string, any>;
 interface userUpdateEvent {
@@ -44,15 +44,29 @@ const api = {
     },
 
     getUsers: async () => {
-      const fiUsers = await apiLib.getFiUsers()
-      const usUsers = await apiLib.getUsUsers()
+      return Promise.all([
+        apiLib.getDkUsers(),
+        apiLib.getFiUsers(),
+        apiLib.getNoUsers(),
+        apiLib.getUsUsers(),
+      ]).then(users => {
+        return [
+          ...users[0].map(user => userHelper.convertToUser(user)),
+          ...users[1].map(user => userHelper.convertToUser(user)),
+          ...users[2].map(user => userHelper.convertToUser(user)),
+          ...users[3].map(user => userHelper.legacyConvertToUser(user)),
+        ]
+      }).then((allUsers: Array<User>) => {
+        const sorted = allUsers.slice().sort((a, b) => a.id.localeCompare(b.id))
 
-      const users = [
-        ...fiUsers.map(fiUser => user.fiUserToUser(fiUser)),
-        ...usUsers.map(usUser => user.usUserToUser(usUser)),
-      ]
+        return sorted.reduce((accumulator: Array<User>, current) => {
+          if (accumulator.length === 0 || accumulator[accumulator.length - 1].id !== current.id) {
+            accumulator.push(current)
+          }
 
-      return users;
+          return accumulator
+        }, [])
+      }) 
     },
     getUser: async (id: string) => {
 
