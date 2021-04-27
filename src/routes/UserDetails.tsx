@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from "react-router-dom"
 import { User } from "../helpers/userHelper"
+import apiClient from "../service/api"
 
 interface Location {
   state: User
@@ -18,7 +19,7 @@ const UserDetails = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        setUser(undefined) // TODO: Call API here
+        setUser(await apiClient.getUser(id))
         setLoadingState('READY')
       } catch (e) {
         alert(e)
@@ -52,11 +53,11 @@ const UserDetails = () => {
   }
 
   return (
-    <p>
-      {`User info of user with id: ${id}`}
+    <div>
+      <p>{`User info of user with id: ${id}`}</p>
 
       {renderDetails()}
-    </p>
+    </div>
   );
 }
 

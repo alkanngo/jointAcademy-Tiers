@@ -10,6 +10,37 @@ interface userUpdateEvent {
 }
 type replyEventListener = (event: userUpdateEvent) => void
 
+const getAllUsers = async () => {
+  return Promise.all([
+    apiLib.getDkUsers(),
+    apiLib.getFiUsers(),
+    apiLib.getNoUsers(),
+    apiLib.getUsUsers(),
+  ]).then(rawUsers => {
+    // Converts to common user type
+    const unsorted = [
+      ...rawUsers[0].map(user => userHelper.convertToUser(user)),
+      ...rawUsers[1].map(user => userHelper.convertToUser(user)),
+      ...rawUsers[2].map(user => userHelper.convertToUser(user)),
+      ...rawUsers[3].map(user => userHelper.legacyConvertToUser(user)),
+    ]
+
+    // Sorts
+    const sorted = unsorted.slice().sort((a, b) => a.id.localeCompare(b.id))
+
+    // Removes duplicates
+    const unique = sorted.reduce((accumulator: Array<User>, current) => {
+      if (accumulator.length === 0 || accumulator[accumulator.length - 1].id !== current.id) {
+        accumulator.push(current)
+      }
+
+      return accumulator
+    }, [])
+
+    return unique
+  })
+}
+
 const api = {
     /**
      * This will allow to install an function to be called when a new reply has happened
@@ -52,32 +83,14 @@ const api = {
     },
 
     getUsers: async () => {
-      return Promise.all([
-        apiLib.getDkUsers(),
-        apiLib.getFiUsers(),
-        apiLib.getNoUsers(),
-        apiLib.getUsUsers(),
-      ]).then(users => {
-        return [
-          ...users[0].map(user => userHelper.convertToUser(user)),
-          ...users[1].map(user => userHelper.convertToUser(user)),
-          ...users[2].map(user => userHelper.convertToUser(user)),
-          ...users[3].map(user => userHelper.legacyConvertToUser(user)),
-        ]
-      }).then((allUsers: Array<User>) => {
-        const sorted = allUsers.slice().sort((a, b) => a.id.localeCompare(b.id))
-
-        return sorted.reduce((accumulator: Array<User>, current) => {
-          if (accumulator.length === 0 || accumulator[accumulator.length - 1].id !== current.id) {
-            accumulator.push(current)
-          }
-
-          return accumulator
-        }, [])
-      }) 
+      return getAllUsers()
     },
     getUser: async (id: string) => {
+      const allUsers = await getAllUsers()
 
+      const user = allUsers.find(user => user.id === id)
+      console.log('USER', user)
+      return user
     },
 }
 
