@@ -3,8 +3,7 @@ import { useHistory } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import apiClient from "../service/api"
 import auth from "../service/auth"
-import userHelper from "../helpers/userHelper"
-import { User } from "../service/user"
+import userHelper, { User } from "../helpers/userHelper"
 
 const Users = () => {
   const { getTier } = userHelper
@@ -53,7 +52,7 @@ const Users = () => {
         <tbody>
           {filteredUsers.map((user) => { return (
             <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)}>
-              <td>{`${user.firstName} ${user.lastName}`}</td>
+              <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
               <td>{`${user.market}`}</td>
               <td>{`${getTier(user)}`}</td>
               <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>

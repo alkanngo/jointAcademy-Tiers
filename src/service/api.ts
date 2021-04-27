@@ -1,5 +1,5 @@
 import apiLib from '../lib/api'
-import userHelper from '../helpers/userHelper'
+import userHelper, { User } from '../helpers/userHelper'
 
 const api = {
     getUsers: async () => {
@@ -10,12 +10,22 @@ const api = {
         apiLib.getUsUsers(),
       ]).then(users => {
         return [
-          ...users[0].map(user => userHelper.dkUserToUser(user)),
-          ...users[1].map(user => userHelper.fiUserToUser(user)),
-          ...users[2].map(user => userHelper.noUserToUser(user)),
-          ...users[3].map(user => userHelper.usUserToUser(user)),
+          ...users[0].map(user => userHelper.convertToUser(user)),
+          ...users[1].map(user => userHelper.convertToUser(user)),
+          ...users[2].map(user => userHelper.convertToUser(user)),
+          ...users[3].map(user => userHelper.legacyConvertToUser(user)),
         ]
-      })
+      }).then((allUsers: Array<User>) => {
+        const sorted = allUsers.slice().sort((a, b) => a.id.localeCompare(b.id))
+
+        return sorted.reduce((accumulator: Array<User>, current) => {
+          if (accumulator.length === 0 || accumulator[accumulator.length - 1].id !== current.id) {
+            accumulator.push(current)
+          }
+
+          return accumulator
+        }, [])
+      }) 
     },
     getUser: async (id: string) => {
 

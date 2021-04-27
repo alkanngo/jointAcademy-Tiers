@@ -1,5 +1,59 @@
 import { differenceInYears } from 'date-fns'
 
+interface SharedUserDetails {
+  cell: string
+  email: string
+  name: {
+    first: string
+    last: string
+    title: string
+  }
+  phone: string
+  picture: {
+    large: string
+    medium: string
+    thumbnail: string
+  }
+  registrationDate: string
+  userName: string
+}
+
+export interface User extends SharedUserDetails {
+  gender: string
+  id: string
+  market: string
+}
+
+const sharedUserDetails = (user: any): SharedUserDetails => {
+  return {
+    cell: user.cell,
+    email: user.email,
+    name: user.name,
+    phone: user.phone,
+    picture: user.picture,
+    registrationDate: user.registered.date,
+    userName: user.login.username,
+  }
+}
+
+const convertToUser = (user: any): User => {
+  return {
+    ...sharedUserDetails(user),
+    gender: user.gender,
+    id: user.login.uuid ? user.login.uuid : user.login.id,
+    market: user.nat,
+  }
+}
+
+const legacyConvertToUser = (user: any): User => {
+  return {
+    ...sharedUserDetails(user),
+    gender: user.gender === 'M' ? 'male' : 'female',
+    id: user.login.id,
+    market: user.nationality,
+  }
+}
+
 type Tier = 'BRONZE' | 'SILVER' | 'GOLD'
 
 const getTier = (user: User): Tier => {
@@ -14,70 +68,10 @@ const getTier = (user: User): Tier => {
   return 'BRONZE'
 }
 
-export interface User {
-  firstName: string
-  gender: string
-  id: number
-  lastName: string
-  market: string
-  registrationDate: string
-  userName: string
-}
-
-const dkUserToUser = (dkUser: any): User => {
-  return {
-    firstName: dkUser.name.first,
-    gender: dkUser.gender === 'male' ? 'M' : 'F',
-    id: dkUser.login.uuid,
-    lastName: dkUser.name.last,
-    market: dkUser.nat,
-    registrationDate: dkUser.registered.date,
-    userName: dkUser.login.username
-  }
-}
- 
-const fiUserToUser = (fiUser: any): User => {
-  return {
-    firstName: fiUser.name.first,
-    gender: fiUser.gender === 'male' ? 'M' : 'F',
-    id: fiUser.login.uuid,
-    lastName: fiUser.name.last,
-    market: fiUser.nat,
-    registrationDate: fiUser.registered.date,
-    userName: fiUser.login.username
-  }
-}
-
-const noUserToUser = (noUser: any): User => {
-  return {
-    firstName: noUser.name.first,
-    gender: noUser.gender === 'male' ? 'M' : 'F',
-    id: noUser.login.uuid,
-    lastName: noUser.name.last,
-    market: noUser.nat,
-    registrationDate: noUser.registered.date,
-    userName: noUser.login.username
-  }
-}
-
-const usUserToUser = (usUser: any): User => {
-  return {
-    firstName: usUser.name.first,
-    gender: usUser.gender,
-    id: usUser.login.id,
-    lastName: usUser.name.last,
-    market: usUser.netionality,
-    registrationDate: usUser.registered.date,
-    userName: usUser.login.username
-  }
-}
-
 const user = {
   getTier,
-  dkUserToUser,
-  fiUserToUser,
-  noUserToUser,
-  usUserToUser
+  convertToUser,
+  legacyConvertToUser
 }
 
 export default user
