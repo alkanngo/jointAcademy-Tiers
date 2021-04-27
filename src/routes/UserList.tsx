@@ -5,7 +5,7 @@ import apiClient from "../service/api"
 import auth from "../service/auth"
 import userHelper, { User } from "../helpers/userHelper"
 
-const Users = () => {
+const UserList = () => {
   const { getTier } = userHelper
   const { getUsername } = auth
   const history = useHistory();
@@ -55,7 +55,7 @@ const Users = () => {
       case 'READY':
         return ( 
           filteredUsers.map((user) => { return (
-            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)} style={{cursor: "pointer"}}>
+            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`, user)} style={{cursor: "pointer"}}>
               <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
               <td>{`${user.market}`}</td>
               <td>{`${getTier(user)}`}</td>
@@ -94,4 +94,4 @@ const Users = () => {
   );
 }
 
-export default Users
+export default UserList

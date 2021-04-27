@@ -5,19 +5,19 @@ import {
   Route,
 } from "react-router-dom"
 
-import Users from './routes/Users'
-import User from './routes/User'
+import UserList from './routes/UserList'
+import UserDetails from './routes/UserDetails'
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/user/:id">
-          <User />
+          <UserDetails />
         </Route>
 
         <Route path="/">
-          <Users />
+          <UserList />
         </Route>
       </Switch>
     </Router>
