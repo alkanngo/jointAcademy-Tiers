@@ -2,6 +2,8 @@
  * THIS FILE MUST NOT BE CHANGED!!!
  * Any change to this file will be reason for desqualification
  */
+import extra from './jaex.json';
+
 type Country = 'DK'|'FI'|'NO'|'US'
 const DEFAULT_BASE_RECORD_NUMBER = parseInt(process.env.REACT_APP_DEFAULT_BASE_RECORD_NUMBER || '20')
 const DEFAULT_NUMBER_OF_RECORDS = process.env.REACT_APP_DEFAULT_NUMBER_OF_RECORDS 
@@ -22,11 +24,32 @@ const buildRequest = (
     return `./replies/ja${country.toLocaleLowerCase()}_100.json`
 }
 
+const addEntropy = (reply: Record<string, any>[]) => {
+    const finalResult = [
+        ...reply || [],
+        ...extra.records,
+    ]
+    var currentIndex = finalResult.length, temporaryValue, randomIndex;
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {//   // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;    
+        // And swap it with the current element.
+        temporaryValue = finalResult[currentIndex];
+        finalResult[currentIndex] = finalResult[randomIndex];
+        finalResult[randomIndex] = temporaryValue;
+    }
+  
+    return finalResult;
+  }
+
 const getUsersFromFile = async (fileName: string, maxDelayMs: number = 1000): Promise<Record<string, any>[]> => {
     return fetch(fileName)
-        .then(reply => reply.json())
+        .then(reply => {
+            return reply.json()
+        })
         .then(jsonReply => {
-            const results: Record<string, any>[] = jsonReply?.results || []
+            const results: Record<string, any>[] = addEntropy(jsonReply?.results || [])
             const maxPos = DEFAULT_NUMBER_OF_RECORDS ? DEFAULT_BASE_RECORD_NUMBER + DEFAULT_NUMBER_OF_RECORDS : undefined
             return results.length ? results.slice(DEFAULT_BASE_RECORD_NUMBER, maxPos) : [];
         }).then(finalResult => {
