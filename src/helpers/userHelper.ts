@@ -3,6 +3,7 @@ import { differenceInYears } from 'date-fns'
 interface SharedUserDetails {
   cell: string
   email: string
+  id: string
   name: {
     first: string
     last: string
@@ -20,7 +21,7 @@ interface SharedUserDetails {
 
 export interface User extends SharedUserDetails {
   gender: string
-  id: string
+
   market: string
 }
 
@@ -28,6 +29,7 @@ const sharedUserDetails = (user: any): SharedUserDetails => {
   return {
     cell: user.cell,
     email: user.email,
+    id: user.login.uuid ? user.login.uuid : user.login.id,
     name: user.name,
     phone: user.phone,
     picture: user.picture,
@@ -40,7 +42,6 @@ const convertToUser = (user: any): User => {
   return {
     ...sharedUserDetails(user),
     gender: user.gender,
-    id: user.login.uuid ? user.login.uuid : user.login.id,
     market: user.nat,
   }
 }
@@ -49,7 +50,6 @@ const legacyConvertToUser = (user: any): User => {
   return {
     ...sharedUserDetails(user),
     gender: user.gender === 'M' ? 'male' : 'female',
-    id: user.login.id,
     market: user.nationality,
   }
 }
