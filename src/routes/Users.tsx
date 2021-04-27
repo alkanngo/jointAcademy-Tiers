@@ -14,12 +14,18 @@ const Users = () => {
   const [users, setUsers] = useState<User[]>([])
   const [filteredUsers, setFilteredUsers] = useState(users.filter((user) => watchMarket === user.market))
 
+  type LoadingState = 'LOADING' | 'READY' | 'ERROR'
+
+  const [loadingState, setLoadingState] = useState<LoadingState>('LOADING')
+
   useEffect(() => {
     const getUsers = async () => {
       try {
         setUsers(await apiClient.getUsers())
+        setLoadingState('READY')
       } catch (e) {
         alert(e)
+        setLoadingState('ERROR')
       }
     }
 
@@ -29,6 +35,36 @@ const Users = () => {
   useEffect(() => {
     setFilteredUsers(users.filter((user) => watchMarket === user.market))
   },[users, watchMarket])
+
+  const renderBody = () => {
+    switch (loadingState) {
+      case 'LOADING':
+        return (
+          <tr>
+            <td col-span="4">Loading..</td>
+          </tr>
+        )
+
+      case 'ERROR':
+        return (
+          <tr>
+            <td col-span="4">Something went wrong :(</td>
+          </tr>
+        )
+
+      case 'READY':
+        return ( 
+          filteredUsers.map((user) => { return (
+            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)} style={{cursor: "pointer"}}>
+              <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
+              <td>{`${user.market}`}</td>
+              <td>{`${getTier(user)}`}</td>
+              <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>
+            </tr>
+          )})
+        )
+    }
+  }
 
   return (
     <div>
@@ -49,15 +85,9 @@ const Users = () => {
           </tr>
         </thead>
 
+        
         <tbody>
-          {filteredUsers.map((user) => { return (
-            <tr key={user.id} onClick={() => history.push(`/user/${user.id}`)}>
-              <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
-              <td>{`${user.market}`}</td>
-              <td>{`${getTier(user)}`}</td>
-              <td>{`${user.userName === getUsername() ? 'Yes' : 'No'}`}</td>
-            </tr>
-          )})}
+          {renderBody()}
         </tbody>
       </table>
     </div>
