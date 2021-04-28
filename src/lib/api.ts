@@ -30,7 +30,6 @@
      const age = (users: ApiUser[]) => {
          if (users.length && market === 'US') {
              return users.map(user => {
-                console.log('USER START', market, JSON.parse(JSON.stringify(user)))
                 user.gender = user.gender === 'female' ? 'F' : 'M'
                  user.login.id = user.login.uuid || user.login.id
                  user.login.uuid = undefined
@@ -38,7 +37,6 @@
                  user.dob = undefined
                  user.nationality = user.nat || user.nationality
                  user.nat = undefined
-                 console.log('USER END ', market, JSON.parse(JSON.stringify(user)))
                  return user
              }) 
          }
