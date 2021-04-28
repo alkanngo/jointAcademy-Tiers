@@ -25,13 +25,28 @@
      }
      return `./replies/ja${country.toLocaleLowerCase()}_small.json`
  }
- 
- const addEntropy = (reply: ApiUser[]) => {
+    
+ const addEntropyToMarket = (reply: ApiUser[], market: Country) => {
+     const age = (users: ApiUser[]) => {
+         if (users.length && market === 'US') {
+             return users.map(user => {
+                 user.gender = user.gender === 'female' ? 'F' : 'M'
+                 user.login.id = user.login.uuid || user.login.id
+                 user.login.uuid = undefined
+                 user.birth = user.dob || user.birth
+                 user.dob = undefined
+                 user.nationality = user.nat || user.nationality
+                 user.nat = undefined
+                 return user
+             }) 
+         }
+         return []
+     }
      const finalResult = [
-         ...reply || [],
+         ...age(reply || []),
          ...extra.records,
      ]
-     var currentIndex = finalResult.length, temporaryValue, randomIndex;
+     let currentIndex = finalResult.length, temporaryValue, randomIndex;
      // While there remain elements to shuffle...
      while (0 !== currentIndex) {//   // Pick a remaining element...
          randomIndex = Math.floor(Math.random() * currentIndex);
@@ -45,13 +60,14 @@
      return finalResult;
    }
  
- const getUsersFromFile = async (fileName: string, maxDelayMs: number = 1000): Promise<ApiUser[]> => {
+ const getUsersFromFile = async (market: Country, maxDelayMs: number = 1000): Promise<ApiUser[]> => {
+     const fileName = buildRequest(market)
      return fetch(fileName)
          .then(reply => {
              return reply.json()
          })
          .then(jsonReply => {
-             const results: ApiUser[] = addEntropy(jsonReply?.results || [])
+             const results: ApiUser[] = addEntropyToMarket(jsonReply?.results || [], market)
              const maxPos = DEFAULT_NUMBER_OF_RECORDS ? DEFAULT_BASE_RECORD_NUMBER + DEFAULT_NUMBER_OF_RECORDS : undefined
              return results.length ? results.slice(DEFAULT_BASE_RECORD_NUMBER, maxPos) : [];
          }).then(finalResult => {
@@ -64,32 +80,32 @@
      maxDelayMs?: number,
      error?: number,
  }
- const getUsersWithNetworkMock = (fileName: string, probs: NetworkIssuesProbablility = {}): Promise<ApiUser[]> => {
+ const getUsersWithNetworkMock = (market: Country, probs: NetworkIssuesProbablility = {}): Promise<ApiUser[]> => {
      const { issues = 0.2, maxDelayMs = 400, error = 0.3 } = probs
      if (Math.random() < issues) {
          if (Math.random() < error) {
              return new Promise((_, reject) => setTimeout(() => reject('Connection timeout'), maxDelayMs * 10))
          } else {
-             return getUsersFromFile(fileName, maxDelayMs * 10)
+             return getUsersFromFile(market, maxDelayMs * 10)
          }
      }
-     return getUsersFromFile(fileName, maxDelayMs)
+     return getUsersFromFile(market, maxDelayMs)
  }
  
  const getUsUsers = () => {
-     return getUsersWithNetworkMock(buildRequest('US'));
+     return getUsersWithNetworkMock('US');
  }
  
  const getFiUsers = () => {
-     return getUsersWithNetworkMock(buildRequest('FI'));
+     return getUsersWithNetworkMock('FI');
  }
  
  const getDkUsers = () => {
-     return getUsersWithNetworkMock(buildRequest('DK'));
+     return getUsersWithNetworkMock('DK');
  }
  
  const getNoUsers = () => {
-     return getUsersWithNetworkMock(buildRequest('NO'));
+     return getUsersWithNetworkMock('NO');
  }
  
  const api = {
