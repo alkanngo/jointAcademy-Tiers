@@ -11,7 +11,6 @@ const UserList = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        console.log(await apiClient.getUsers())
         setUsers(await apiClient.getUsers())
       } catch (e) {
         alert(e)
