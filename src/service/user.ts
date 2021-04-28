@@ -1,4 +1,7 @@
-export interface User {
+/**
+ * The candidate may change this file contents
+ */
+ export interface User {
   login: {
     uuid: string
   },

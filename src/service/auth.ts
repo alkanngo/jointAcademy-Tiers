@@ -1,4 +1,8 @@
-const getUserId = () => {
+/**
+ * THIS FILE MUST NOT BE CHANGED!!!
+ * Any change to this file will be reason for desqualification
+ */
+ const getUserId = () => {
     return process.env.REACT_APP_USER_UUID || null
 }
 

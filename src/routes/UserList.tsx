@@ -1,4 +1,7 @@
-import React, { useEffect, useState }  from 'react'
+/**
+ * The candidate may change this file contents
+ */
+ import React, { useEffect, useState }  from 'react'
 import { useHistory } from "react-router-dom"
 import apiService from "../service/api"
 import userService, { User } from "../service/user"

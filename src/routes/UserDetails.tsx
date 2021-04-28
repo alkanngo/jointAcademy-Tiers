@@ -1,4 +1,7 @@
-import React from 'react'
+/**
+ * The candidate may change this file contents
+ */
+ import React from 'react'
 import { useParams } from "react-router-dom"
 
 const UserDetails = () => {

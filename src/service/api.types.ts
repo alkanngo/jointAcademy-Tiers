@@ -1,3 +1,7 @@
+/**
+ * THIS FILE MUST NOT BE CHANGED!!!
+ * Any change to this file will be reason for desqualification
+ */
 import { Country } from '../lib/api'
 import { User } from '../service/user'
 
