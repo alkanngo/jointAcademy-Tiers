@@ -1,5 +1,5 @@
 import apiLib from '../lib/api'
-import { User } from '../helpers/userHelper'
+import { User } from './user'
 
 const api = {
   getUsers: async (): Promise<Array<User>> => {
