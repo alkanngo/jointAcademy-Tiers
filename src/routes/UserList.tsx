@@ -9,9 +9,12 @@ const UserList = () => {
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
-    apiService.getUsers().then(users => {
-      setUsers(users)
-    })
+    const { result: users } = apiService.getUsers()
+    if (users) {
+        users.then((userRecords) => {
+            setUsers(userRecords)
+        })
+    }
   }, [])
 
   const navigateToDetails = (id: string) => {

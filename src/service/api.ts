@@ -3,7 +3,7 @@ import { User } from './user'
 import { ServiceApi, GetUsersOptions, GetUsersOutput } from './api.types'
 
 const api: ServiceApi = {
-    getUsers: (options: GetUsersOptions): GetUsersOutput => {
+    getUsers: (options?: GetUsersOptions): GetUsersOutput => {
         // START - CANDIDATE getUsers IMPLEMENTATION
         return { result: apiLib.getUsUsers() as Promise<User[]> };
         // END - CANDIDATE getUsers IMPLEMENTATION
@@ -12,6 +12,7 @@ const api: ServiceApi = {
     getUser: async (id: string): Promise<User> => {
 
         // TODO: PROVIDE USER INFORMATION
+        return new Promise((resolve) => resolve({} as User))
 
     },
 }

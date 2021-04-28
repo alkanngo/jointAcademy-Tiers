@@ -22,6 +22,6 @@ export type GetUsersOutput = {
 }
 
 export interface ServiceApi {
-    getUsers: (options: GetUsersOptions) => GetUsersOutput
+    getUsers: (options?: GetUsersOptions) => GetUsersOutput
     getUser: (id: string) => Promise<User>
 }
