@@ -1,5 +1,5 @@
 import { Country } from '../lib/api'
-import { User } from '../helpers/userHelper'
+import { User } from '../service/user'
 
 export interface userUpdateEvent {
     success: boolean
