@@ -20,3 +20,8 @@ export type GetUsersOutput = {
     markets?: Array<string>
     success?: boolean
 }
+
+export interface ServiceApi {
+    getUsers: (options: GetUsersOptions) => GetUsersOutput
+    getUser: (id: string) => Promise<User>
+}

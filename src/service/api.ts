@@ -1,8 +1,8 @@
 import apiLib from '../lib/api'
 import { User } from './user'
-import { GetUsersOptions, GetUsersOutput } from './api.types'
+import { ServiceApi, GetUsersOptions, GetUsersOutput } from './api.types'
 
-const api = {
+const api: ServiceApi = {
     getUsers: (options: GetUsersOptions): GetUsersOutput => {
         // START - CANDIDATE getUsers IMPLEMENTATION
         return { result: apiLib.getUsUsers() as Promise<User[]> };
