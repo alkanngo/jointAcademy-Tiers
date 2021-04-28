@@ -1,25 +1,22 @@
 import React, { useEffect, useState }  from 'react'
 import { useHistory } from "react-router-dom"
-import apiClient from "../service/api"
-import userHelper, { User } from "../helpers/userHelper"
+import apiService from "../service/api"
+import userService, { User } from "../service/user"
 
 const UserList = () => {
-  const { getTier } = userHelper
+  const { getTier } = userService
   const history = useHistory();
   const [users, setUsers] = useState<User[]>([])
 
   useEffect(() => {
-    const getUsers = async () => {
-      try {
-        console.log(await apiClient.getUsers())
-        setUsers(await apiClient.getUsers())
-      } catch (e) {
-        alert(e)
-      }
-    }
-
-    getUsers()
+    apiService.getUsers().then(users => {
+      setUsers(users)
+    })
   }, [])
+
+  const navigateToDetails = (id: string) => {
+    history.push(`/user/${id}`)
+  }
 
   return (
     <div>
@@ -31,11 +28,10 @@ const UserList = () => {
             <th>Tier</th>
           </tr>
         </thead>
-
         
         <tbody>
           {users.map((user) => (
-            <tr key={user.login.uuid} onClick={() => history.push(`/user/${user.login.uuid}`, user)} style={{cursor: "pointer"}}>
+            <tr key={user.login.uuid} onClick={() => navigateToDetails(user.login.uuid)} style={{cursor: "pointer"}}>
               <td>{`${user.name.title} ${user.name.first} ${user.name.last}`}</td>
               <td>{`${user.nationality}`}</td>
               <td>{`${getTier(user)}`}</td>

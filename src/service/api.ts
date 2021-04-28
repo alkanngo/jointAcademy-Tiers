@@ -1,5 +1,5 @@
 import apiLib from '../lib/api'
-import { User } from '../helpers/userHelper'
+import { User } from './user'
 import { GetUsersOptions, GetUsersOutput } from './api.types'
 
 const api = {
