@@ -10,20 +10,24 @@ import {
 
 import UserList from './routes/UserList'
 import UserDetails from './routes/UserDetails'
+import Nav from './components/Nav';
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route path="/user/:id">
-          <UserDetails />
-        </Route>
+    <>
+      <Nav />
+      <Router>
+        <Switch>
+          <Route path="/user/:id">
+            <UserDetails />
+          </Route>
 
-        <Route path="/">
-          <UserList />
-        </Route>
-      </Switch>
-    </Router>
+          <Route path="/">
+            <UserList />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 
