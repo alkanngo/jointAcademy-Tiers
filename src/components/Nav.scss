@@ -1,0 +1,51 @@
+.container{
+  display: grid;
+  height: 200px;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: center;
+}
+
+.name_container{
+  grid-column: 2 / 3;
+
+  .site_name{
+    font-family: "Major Mono Display", monospace;
+    font-size: 2.5rem;
+    color: #A77044;
+
+    .silver{
+      color: #afafaf;
+    }
+    .gold{
+      color: #D6AF36;
+    }
+  }
+}
+
+
+.profile_pic{
+  width:100px;
+  height: 100px;
+  grid-column: 5 / 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  h3{
+    font-family: "Montserrat";
+    color: #A77044;
+    margin-top: 2vh;
+    text-align: center;
+  }
+  
+  img{
+    margin-left: 10px;
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border-radius: 20%;
+    border: 5px solid #A77044;
+    align-self:flex-start
+  }
+}
