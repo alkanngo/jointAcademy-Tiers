@@ -1,0 +1,82 @@
+@import "./../../sass/style.scss";
+
+.illustration{
+  display: grid;
+  place-items: center;
+  .instruction, .info{
+    font-family: $secondaryFont;
+    margin: 2vh 0;
+    text-align: center;
+  }
+
+  .instruction{
+    font-weight: bold;
+    
+  }
+
+  
+  .info{
+    line-height: 4vh;
+    &__container{
+      display: grid;
+      place-items: center;
+      width: 75vw;
+    }
+    &__title{
+      font-family: $primaryFont;
+      text-decoration: underline;
+      text-decoration-style: double;
+    }
+  }
+  .animation{
+    width: 95vw;
+    height: 50vh;
+    display: grid;
+    place-items: center;
+  
+    svg{
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@include desktop{
+  .illustration{
+    grid-template-columns: $x6grid;
+    grid-template-rows: $x6grid;
+
+    .instruction{
+      grid-column: span 7;
+      
+    }
+
+    .info{
+      font-size: $secondaryFontSizeDesktop;
+
+      &__title{
+        font-size: $secondaryFontSizeDesktop;
+      }
+      &__container{
+        max-width: 35vw;
+        height: 20vh;
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+      }
+    }
+
+    .animation{
+      grid-column: 3 / 6;
+      grid-row: 4 / 7;
+        width: 55vw;
+        height: 85vh;
+        display: grid;
+        place-items: center;
+      
+        svg{
+          width: 100%;
+          height: 100%;
+        }
+    }
+  }
+}
