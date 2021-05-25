@@ -1,0 +1,36 @@
+@import "./../../sass/style.scss";
+
+.btn {
+  width: 30vw;
+  max-width: 120px;
+  height: 50px;
+  letter-spacing: 0.5px;
+  color: $bronzeColor;
+  font-size: $secondaryFontSize;
+  font-family: $secondaryFont;
+  border-radius: 5px;
+  border: 2px solid $bronzeColor;
+  box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.05);
+  &:hover, .active{
+    @include hoverState($bronzeColor,)
+  }
+  
+  &.silver{
+    border: 2px solid $silverColor;
+    color: $silverColor;
+    &:hover, &.active{
+      @include hoverState($silverColor)
+
+    }
+  }
+
+  &.gold{
+    border: 2px solid $goldColor;
+    color: $goldColor;
+    &:hover, .active{
+      @include hoverState($goldColor)
+    }
+  }
+  
+
+}
