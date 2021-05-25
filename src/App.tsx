@@ -8,14 +8,14 @@ import {
   Route,
 } from "react-router-dom"
 
-import UserList from './routes/UserList'
-import UserDetails from './routes/UserDetails'
-import Nav from './components/Nav';
+import UserList from './routes/UserList/UserList'
+import UserDetails from './routes/UserDetails/UserDetails'
+import Header from './components/Header/Header';
 
 function App() {
   return (
     <>
-      <Nav />
+      <Header />
       <Router>
         <Switch>
           <Route path="/user/:id">
