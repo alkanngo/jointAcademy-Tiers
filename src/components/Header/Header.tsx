@@ -4,13 +4,6 @@ import "./Header.scss"
 
 const Header: React.FunctionComponent = () => {
   const { getUsername } = auth
-  const testUser = getUsername();
-
-  const printButtonLabel = (event: React.ChangeEvent<HTMLButtonElement>) => {
-    console.log(event.target.name);
-    //do some stuff here
-  };
-
 
   return (
     <header className="header">
