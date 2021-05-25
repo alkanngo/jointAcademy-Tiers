@@ -28,6 +28,7 @@
     td, th{
       height: 8vh;
       width: 80vw;
+      text-align: start;
       img{
         border-radius: 20%;
         margin-left: 2vw;
@@ -61,6 +62,10 @@
   }
 }
 
-@include desktop(
-
-)
+@include desktop{
+  .list{
+    tr{
+      text-align: justify;
+    }
+  }
+}
