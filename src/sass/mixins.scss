@@ -1,0 +1,22 @@
+@import "./variabels.scss";
+
+@mixin hoverState($bgColor){
+  background-color: $bgColor;
+  color: $fontSubColor;
+  box-shadow: 0 0.5em 0.5em -0.4em var($bgColor);
+  transform: translateY(-0.25em);
+  transition-duration: 300ms;
+}
+
+
+@mixin tablet {
+  @media screen and (min-width: 768px) {
+      @content;
+  }
+}
+
+@mixin desktop {
+  @media screen and (min-width: 991px) {
+      @content;
+  }
+}

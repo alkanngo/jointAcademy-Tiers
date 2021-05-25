@@ -1,0 +1,29 @@
+// Font family, size
+$primaryFont: "Major Mono Display", monospace;
+$secondaryFont: "Montserrat";
+$secondaryFontSize: 1.1rem;
+$secondaryFontSizeTablet: 1.5rem;
+$secondaryFontSizeDesktop: 1.6rem;
+$titleFontSize: 2.3em;
+
+// Color
+$backgroundColor: #e0e0e0;
+$bronzeColor: #A77044;
+$silverColor: #afafaf;
+$goldColor: #D6AF36;
+
+
+// Font color
+$fontColorMain: #000;
+$fontSubColor: #fff;
+
+//Used for defining grids
+$x3grid: repeat(3, 1fr);
+$x6grid: repeat(6, 0.2fr);
+$x12grid: repeat(12, 1fr);
+
+// Spacing
+$mainSpacing: 0.3rem;
+
+// Radius
+$mainRadius: 0.3rem;
