@@ -4,24 +4,35 @@
  export interface User {
   login: {
     uuid: string
-    id: string 
+    id: string
+    username: string
   }
   name: {
     first: string
     last: string
     title: string
   }
+  location: {
+    street:{
+      number: number
+      name: string
+    }
+    city: string
+    state: string
+    country: string
+  }
+  birth: {
+    age: number
+  }
   registered: {
     age: number
   }
   picture: {
-    medium: string
+    large: string
     thumbnail: string
   }
-  location:{
-    country: string
-  }
   nationality: string
+  phone: string
 }
 
 type Tier = 'BRONZE' | 'SILVER' | 'GOLD'
