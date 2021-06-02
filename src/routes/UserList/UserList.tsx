@@ -7,7 +7,7 @@ import apiService from "../../service/api"
 import userService, { User } from "../../service/user"
 import  auth  from "../../service/auth"
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup"
-import Illustration from '../../components/Illustration/Illustration'
+import Onboarding from '../../components/Onboarding/Onboarding'
 import "./UserList.scss" 
 
 
@@ -48,7 +48,7 @@ const UserList = () => {
   };
 
   return (
-    <main className="nav__list">
+    <main>
       <div className="btn-group">
         <ButtonGroup 
           buttons={["BRONZE", "SILVER", "GOLD"]}
@@ -56,7 +56,7 @@ const UserList = () => {
         />
       </div>
       {!listPopulated
-        ? <Illustration />
+        ? <Onboarding />
         :<div className="list">
           <table className="list__table">
             <thead className="table__head">

@@ -1,12 +1,12 @@
 import React from 'react'
-import AnimatedIllustration from "../../svg/AnimatedIllustration"
-import "./Illustration.scss"
+import OnboardingSvg from "../../svg/Onboarding"
+import "./Onboarding.scss"
 
-const Illustration: React.FunctionComponent = () => {
+const Onboarding: React.FunctionComponent = () => {
 
 
   return (
-    <section className="illustration">
+    <section className="onboarding">
       <h3 className="instruction">
         Check out a tier list by pressing a button above 
       </h3>
@@ -19,10 +19,10 @@ const Illustration: React.FunctionComponent = () => {
         </p>
       </article>
       <div className="animation">
-        <AnimatedIllustration />
+        <OnboardingSvg />
       </div>
     </section>
   );
 }
 
-export default Illustration;
+export default Onboarding;
