@@ -3,7 +3,7 @@
 @mixin hoverState($bgColor){
   background-color: $bgColor;
   color: $fontSubColor;
-  box-shadow: 0 0.5em 0.5em -0.4em var($bgColor);
+  box-shadow: 0 8px 40px var($bgColor);
   transform: translateY(-0.25em);
   transition-duration: 300ms;
 }

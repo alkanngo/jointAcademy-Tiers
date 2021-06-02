@@ -1,14 +1,14 @@
 // Font family, size
 $primaryFont: "Major Mono Display", monospace;
 $secondaryFont: "Montserrat";
-$secondaryFontSize: 1.1rem;
+$secondaryFontSize: 1rem;
 $secondaryFontSizeTablet: 1.5rem;
 $secondaryFontSizeDesktop: 1.6rem;
 $titleFontSize: 2.3em;
 
 // Color
 $backgroundColor: #e0e0e0;
-$bronzeColor: #A77044;
+$bronzeColor: #cd7f32;
 $silverColor: #afafaf;
 $goldColor: #D6AF36;
 
@@ -27,3 +27,6 @@ $mainSpacing: 0.3rem;
 
 // Radius
 $mainRadius: 0.3rem;
+
+// Shadow
+$shadow: 0px 8px 40px rgba(0, 0, 0, 0.15);
