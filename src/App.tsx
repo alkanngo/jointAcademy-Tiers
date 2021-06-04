@@ -11,12 +11,14 @@ import {
 import UserList from './routes/UserList/UserList'
 import UserDetails from './routes/UserDetails/UserDetails'
 import Header from './components/Header/Header';
+import { AppProvider } from "./context/Context";
 
 function App() {
   return (
     <>
-      <Header />
+    <AppProvider>
       <Router>
+        <Header />
         <Switch>
           <Route path="/user/:id">
             <UserDetails />
@@ -27,6 +29,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
+    </AppProvider>
     </>
   );
 }

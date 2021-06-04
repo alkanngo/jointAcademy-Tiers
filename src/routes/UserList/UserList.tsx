@@ -3,45 +3,48 @@
  */
 import React, { useEffect, useState }  from 'react'
 import { useHistory } from "react-router-dom"
+import { useAppContext } from '../../context/Context'
 import apiService from "../../service/api"
 import userService, { User } from "../../service/user"
 import  auth  from "../../service/auth"
 import ButtonGroup from "../../components/ButtonGroup/ButtonGroup"
-import Onboarding from '../../components/Onboarding/Onboarding'
+import Onboarding from "../../components/Onboarding/Onboarding"
 import "./UserList.scss" 
 
-
+//TODO: Render something if connection timeout
+//TODO: Get rid of duplicates in list
 const UserList = () => {
   const { getTier } = userService
   const { getUserId } = auth
   const history = useHistory();
+  const ctxVal = useAppContext()
   const [users, setUsers] = useState<User[]>([])
-  const [testUser, setTestUser] = useState<User>()
   const [selectedTier, setSelectedTier] = useState<string>()
   const [listPopulated, setListPopulated] = useState<boolean>(false)
+
+  const getTestUser = (id: string, user: User) => {
+    const testUserId = getUserId()
+      if(testUserId === id){
+        return ctxVal.setTestUser(user)
+      }
+  }
 
   useEffect(() => {
     const { result: users } = apiService.getUsers()
     if (users) {
         users.then((userRecords) => {
           setUsers(userRecords)
+          userRecords.forEach(user => {
+            getTestUser(user.login.id, user)
+          })
         })
-        getTestUser()
-    }
+      }
   }, [])
 
   const navigateToDetails = (id: string, user: User) => {
     history.push({pathname:`/user/${id}`, state: {user: user,}})
   }
 
-  const getTestUser = () => {
-    const testUserId = getUserId()
-    users.forEach(user => {
-      if(testUserId === user.login.id){
-        return setTestUser(user)
-      }
-    })
-  }
   const renderSelectedTier = (event: React.ChangeEvent<HTMLButtonElement>) => {
     setSelectedTier(event.target.name)
     setListPopulated(true)

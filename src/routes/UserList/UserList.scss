@@ -12,42 +12,43 @@
   align-items: center;
   margin: 0 5vw;
 
-  
   .list__table{
     font-family: "Montserrat";
     border-collapse: separate;
     border-spacing: 0 0.5vh;
     overflow: hidden;
     
-    
     td, th{
       height: 8vh;
       width: 80vw;
       text-align: start;
+
       img{
         border-radius: 20%;
         margin-left: 2vw;
       }
     }
-    
+
     tr{
       border-radius: 100px;
       background: #FFFFFF;
       box-shadow: 0px 8px 40px rgba(0, 0, 0, 0.05);
     }
-    
+
     .table__head{
       font-family: "Major Mono Display", monospace;
     }
-    
+
     .table__body{
       tr {
         &:hover{
           @include hoverState($bronzeColor);
           transition-duration: 100ms;
+
           &.silver{
             @include hoverState($silverColor);
           }
+
           &.gold{
             @include hoverState($goldColor);
           }
