@@ -2,8 +2,7 @@ import React from 'react'
 import OnboardingSvg from "../../svg/Onboarding"
 import "./Onboarding.scss"
 
-const Onboarding: React.FunctionComponent = () => {
-
+const Onboarding: React.FC = () => {
 
   return (
     <section className="onboarding">

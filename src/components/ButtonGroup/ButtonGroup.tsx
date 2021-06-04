@@ -6,7 +6,7 @@ type ButtonProps = {
   selectedButton: Function,
 }
 
-const ButtonGroup: React.FunctionComponent<ButtonProps> = ({ buttons, selectedButton }: ButtonProps) => {
+const ButtonGroup: React.FC<ButtonProps> = ({ buttons, selectedButton }: ButtonProps) => {
 
   const [clickedId, setClickedId] = useState(-1);
 

@@ -29,6 +29,7 @@
   }
   picture: {
     large: string
+    medium: string
     thumbnail: string
   }
   nationality: string

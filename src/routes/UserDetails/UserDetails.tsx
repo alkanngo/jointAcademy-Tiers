@@ -1,7 +1,7 @@
 /**
  * The candidate may change this file contents
  */
- import React, {useEffect}from 'react'
+ import React from 'react'
 import { useLocation } from "react-router-dom"
 import userService, { User } from '../../service/user'
 import Bronze from "../../svg/Bronze"
@@ -50,6 +50,7 @@ const UserDetails = () => {
         </div>
         <div className="user__info">
           <p className="name">{`${user.name.title} ${user.name.first} ${user.name.last}`}</p>
+          <p className="username">{`@${user.login.username}`}</p>
           <p className="tier">{`Tier: ${getTier(user)}`}</p>
           <p className="registered">{`Registerd For: ${user.registered.age} years`}</p>
           <p className="age">{`Age: ${user.birth.age}`}</p>
@@ -58,7 +59,6 @@ const UserDetails = () => {
           <p className="phone">{`Phone#: ${user.phone}`}</p>
         </div>
       </section>
-
     </main>
   );
 }
